@@ -1,0 +1,38 @@
+
+    :host { display: block; height: 100vh; }
+    .app-shell { display: flex; height: 100vh; background: var(--bg-primary); overflow: hidden; }
+    .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.3); z-index: 40; backdrop-filter: blur(2px); }
+    .sidebar-open .overlay { display: block; }
+    .sidebar { width: 260px; min-width: 260px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 50; transition: transform 0.25s ease; flex-shrink: 0; }
+    .sidebar-brand { display: flex; align-items: center; gap: 12px; padding: 24px 20px; border-bottom: 1px solid var(--border); }
+    .brand-icon { width: 40px; height: 40px; background: var(--accent); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; }
+    .brand-icon svg { width: 22px; height: 22px; }
+    .brand-icon.small { width: 32px; height: 32px; border-radius: 8px; }
+    .brand-icon.small svg { width: 16px; height: 16px; }
+    .brand-text { display: flex; flex-direction: column; flex: 1; }
+    .brand-name { font-size: 15px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.3px; }
+    .brand-sub { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+    .sidebar-close { display: none; background: none; border: none; cursor: pointer; color: var(--text-muted); padding: 4px; margin-left: auto; }
+    .sidebar-close svg { width: 20px; height: 20px; }
+    .nav-links { list-style: none; padding: 16px 12px; flex: 1; margin: 0; overflow-y: auto; }
+    .nav-links li { margin-bottom: 4px; }
+    .nav-links a { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.15s; }
+    .nav-links a svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .nav-links a:hover { background: var(--bg-hover); color: var(--text-primary); }
+    .nav-links a.active { background: var(--accent-muted); color: var(--accent); font-weight: 600; }
+    .sidebar-footer { padding: 20px 24px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 6px #22c55e; }
+    .main-wrapper { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+    .topbar { display: none; align-items: center; gap: 12px; padding: 0 16px; height: 56px; background: var(--surface); border-bottom: 1px solid var(--border); flex-shrink: 0; }
+    .topbar-brand { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 700; color: var(--text-primary); }
+    .hamburger { background: none; border: none; cursor: pointer; color: var(--text-secondary); padding: 6px; border-radius: 8px; display: flex; align-items: center; transition: background 0.15s; }
+    .hamburger:hover { background: var(--bg-hover); }
+    .hamburger svg { width: 22px; height: 22px; }
+    .main-content { flex: 1; overflow-y: auto; background: var(--bg-primary); }
+    @media (max-width: 768px) {
+      .sidebar { position: fixed; top: 0; left: 0; bottom: 0; transform: translateX(-100%); }
+      .sidebar-open .sidebar { transform: translateX(0); box-shadow: 4px 0 24px rgba(0,0,0,.12); }
+      .sidebar-close { display: flex; }
+      .topbar { display: flex; }
+    }
+  

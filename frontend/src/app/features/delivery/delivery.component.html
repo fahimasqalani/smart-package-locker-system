@@ -1,0 +1,80 @@
+
+    <div class="page">
+      <div class="page-header">
+        <h1 class="page-title">Store Package</h1>
+        <p class="page-sub">Deposit a package into an available locker</p>
+      </div>
+
+      <div class="layout">
+        <!-- Form -->
+        <div class="card">
+          <div class="form-section">
+            <label>Customer ID</label>
+            <input [(ngModel)]="customerId" placeholder="e.g. CUST-001" class="input" [disabled]="!!svc.result()" />
+          </div>
+          <div class="form-section">
+            <label>Package Size</label>
+            <div class="size-options">
+              <div *ngFor="let s of sizes" class="size-option"
+                   [class.selected]="packageSize() === s.value"
+                   [class.disabled]="!!svc.result()"
+                   (click)="!svc.result() && packageSize.set(s.value)">
+                <div class="so-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect [attr.x]="s.x" [attr.y]="s.y" [attr.width]="s.w" [attr.height]="s.h" rx="2"/>
+                    <line [attr.x1]="s.x" y1="12" [attr.x2]="s.x2" y2="12"/>
+                  </svg>
+                </div>
+                <span class="so-label">{{ s.value }}</span>
+                <span class="so-dim">{{ s.dim }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            The system assigns the smallest available locker that fits the package.
+          </div>
+
+          <button class="btn-primary" (click)="submit()"
+                  [disabled]="!customerId.trim() || !packageSize() || svc.loading() || !!svc.result()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3"/><rect x="9" y="11" width="14" height="10" rx="1"/></svg>
+            {{ svc.loading() ? 'Storing...' : 'Store Package' }}
+          </button>
+
+          <div class="alert error" *ngIf="svc.error()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            {{ svc.error() }}
+          </div>
+        </div>
+
+        <!-- Result -->
+        <div class="card result-card" *ngIf="svc.result()">
+          <div class="result-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <h2>Package Stored!</h2>
+          <p class="result-sub">Pickup code sent to customer via SMS/email.</p>
+
+          <div class="pickup-code">
+            <div class="code-label">Pickup Code</div>
+            <div class="code-value">{{ svc.result()!.pickupCode }}</div>
+          </div>
+
+          <div class="detail-list">
+            <div class="detail-row"><span>Locker ID</span><span class="mono">{{ svc.result()!.lockerId.slice(0,8) }}...</span></div>
+            <div class="detail-row"><span>Locker Size</span><span>{{ svc.result()!.lockerSize }}</span></div>
+            <div class="detail-row"><span>Package ID</span><span class="mono">{{ svc.result()!.packageId.slice(0,8) }}...</span></div>
+            <div class="detail-row"><span>Stored At</span><span>{{ svc.result()!.storedAt | date:'medium' }}</span></div>
+          </div>
+
+          <button class="btn-secondary" (click)="reset()">Store Another Package</button>
+        </div>
+
+        <div class="card placeholder" *ngIf="!svc.result()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          <p>Fill in the form to assign a locker.</p>
+        </div>
+      </div>
+    </div>
+  
